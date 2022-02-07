@@ -14,7 +14,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "./Frontend/build/index.html")));
+app.use(express.static(path.join(__dirname, "./Frontend/build")));
 
 app.use("/api/", homeRoutes);
 app.use("/api/matches", matchRoutes);
