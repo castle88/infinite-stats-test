@@ -22,7 +22,9 @@ export default function SpecificMatch() {
 
   const fetchMatch = async () => {
     try {
-      const res = await fetch(`/api/matches/${id}`);
+      const res = await fetch(
+        `https://infinite-stats.herokuapp.com/api/matches/${id}`
+      );
       const data = await res.json();
 
       setMatch(data);

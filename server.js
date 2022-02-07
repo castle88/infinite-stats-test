@@ -21,4 +21,8 @@ app.use("/api/matches", matchRoutes);
 app.use("/api/search", searchRoutes);
 // app.use("/newuser", newUserRoutes);
 
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../Frontend/build", "index.html"));
+});
+
 app.listen(port, () => console.log(`listening on port: ${port}`));

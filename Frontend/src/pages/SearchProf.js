@@ -12,7 +12,9 @@ export default function Search() {
 
   const fetchProfile = async () => {
     try {
-      const res = await fetch(`/api/${gamertag}`);
+      const res = await fetch(
+        `https://infinite-stats.herokuapp.com/api/${gamertag}`
+      );
       const data = await res.json();
 
       await setProfile(data);
