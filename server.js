@@ -3,6 +3,7 @@ const path = require("path");
 const homeRoutes = require("./routes/home");
 const matchRoutes = require("./routes/match");
 const searchRoutes = require("./routes/search");
+const cors = require("cors");
 //const newUserRoutes = require("./routes/newUser");
 require("dotenv").config({ path: "./config/.env" });
 //const connectDB = require("./config/database");
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "./Frontend/build")));
+app.use(cors());
 
 app.use("/api/", homeRoutes);
 app.use("/api/matches", matchRoutes);
