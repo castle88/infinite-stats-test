@@ -9,7 +9,7 @@ require("dotenv").config({ path: "./config/.env" });
 
 //connectDB();
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3333;
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));

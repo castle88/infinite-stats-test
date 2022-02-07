@@ -12,7 +12,6 @@ export default function Profile() {
 
   const fetchProfile = async () => {
     try {
-      console.log(gamertag);
       const res = await fetch(`/api/${gamertag}`);
       const data = await res.json();
 
@@ -24,7 +23,6 @@ export default function Profile() {
   };
 
   useEffect(() => fetchProfile(), []);
-  console.log(profile);
 
   return (
     <Box>
