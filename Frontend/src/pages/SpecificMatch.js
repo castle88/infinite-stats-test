@@ -23,7 +23,7 @@ export default function SpecificMatch() {
   const fetchMatch = async () => {
     try {
       console.log(id);
-      const res = await fetch(`http://localhost:3333/matches/${id}`);
+      const res = await fetch(`api/matches/${id}`);
       const data = await res.json();
 
       setMatch(data);

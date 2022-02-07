@@ -13,7 +13,7 @@ export default function Profile() {
   const fetchProfile = async () => {
     try {
       console.log(gamertag);
-      const res = await fetch(`http://localhost:3333/${gamertag}`);
+      const res = await fetch(`/api/${gamertag}`);
       const data = await res.json();
 
       await setProfile(data);
