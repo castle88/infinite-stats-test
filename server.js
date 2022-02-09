@@ -8,6 +8,8 @@ const cors = require("cors");
 require("dotenv").config({ path: "./config/.env" });
 //const connectDB = require("./config/database");
 
+// look into polypane - multiple browser window
+
 //connectDB();
 
 const port = process.env.PORT || 3333;

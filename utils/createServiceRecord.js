@@ -99,9 +99,9 @@ const serviceRecordHelper = {
   },
   getTopNineMedals: (medalsArr) => {
     const sorted = medalsArr.sort((a, b) => b.count - a.count);
-    const top = sorted.slice(0, 9);
+    // const top = sorted.slice(0, 9);
 
-    return top;
+    return sorted;
   },
 
   makeServiceRecord: (data) => {
