@@ -51,7 +51,7 @@ export default function ProfCard({ profile }) {
     setExpanded(true);
     setActive(topMedalsComponent);
   };
-
+  console.log(`appearance: ${profile.appearance.emblem}`);
   return (
     <Card sx={{ mt: 10, maxWidth: 500 }}>
       <CardHeader
