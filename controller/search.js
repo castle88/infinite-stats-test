@@ -1,7 +1,7 @@
 const infiniteAPI = require("../utils/infiniteAPI");
 
 module.exports = {
-  getPlayer: async (req, res) => {
+  getPlayer: async (req, res, next) => {
     const playerID = req.params.id;
     try {
       const appearance = await infiniteAPI.getAppearance(playerID);
@@ -9,9 +9,12 @@ module.exports = {
       const serviceRecord = await infiniteAPI.getServiceRecord(playerID);
       const matchHistory = await infiniteAPI.getMatchHistory(playerID);
 
-      res.json({ appearance, csrs, serviceRecord, matchHistory });
+      res
+        .status(200)
+        .json({ success: true, appearance, csrs, serviceRecord, matchHistory });
     } catch (err) {
       console.log(err);
+      next(err);
     }
   },
 };

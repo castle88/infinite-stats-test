@@ -2,7 +2,7 @@ const infiniteAPI = require("../utils/infiniteAPI");
 const User = require("../model/User");
 
 module.exports = {
-  getProfile: async (req, res) => {
+  getProfile: async (req, res, next) => {
     // change gamertag to receive input from clientside form
     const gamertag = req.params.id.split("_").join(" ");
     try {
@@ -10,7 +10,9 @@ module.exports = {
       const csrs = await infiniteAPI.getCSRS(gamertag);
       const serviceRecord = await infiniteAPI.getServiceRecord(gamertag);
       const matchHistory = await infiniteAPI.getMatchHistory(gamertag);
-
+      if (!appearance || !csrs || !serviceRecord || !matchHistory) {
+        return next(new Error("There was an error locating your data"));
+      }
       // await User.findOneAndUpdate(
       //   { gamertag: gamertag },
       //   {
@@ -33,9 +35,10 @@ module.exports = {
 
       console.log(profile);
 
-      res.json(profile);
+      res.status(200).json({ success: true, profile });
     } catch (err) {
       console.log(err);
+      next(err);
     }
   },
 };

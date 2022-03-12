@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const homeController = require("../controller/home");
+const { getProfile } = require("../controller/home");
 
-router.get("/:id", homeController.getProfile);
+// router.get("/", getProfile);
+router.get("/:id", getProfile);
 
 module.exports = router;

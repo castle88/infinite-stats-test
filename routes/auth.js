@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { getPlayer } = require("../controller/search");
+const { postRegister } = require("../controller/auth");
 
-router.get("/:id", getPlayer);
+router.post("/register", postRegister);
 
 module.exports = router;
