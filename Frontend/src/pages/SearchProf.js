@@ -1,7 +1,7 @@
 import ProfCard from "../components/ProfCard/ProfCard";
 import CenterBox from "../components/CenterBox/CenterBox";
 import { Box } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Loading from "../components/Loading/Loading";
 
@@ -10,17 +10,32 @@ export default function Search() {
   const [profile, setProfile] = useState({});
   const [doneLoading, setDoneLoading] = useState(false);
 
-  const fetchProfile = async () => {
-    try {
-      const res = await fetch(
-        `https://infinite-stats.herokuapp.com/api/${gamertag}`
-      );
-      const data = await res.json();
+  const navigate = useNavigate();
 
-      await setProfile(data.profile);
-      await setDoneLoading(true);
-    } catch (err) {
-      console.log(err);
+  const fetchProfile = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("no token");
+      navigate("/");
+    } else {
+      try {
+        const res = await fetch(
+          `https://infinite-stats.herokuapp.com/api/${gamertag}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await res.json();
+
+        console.log(data);
+
+        await setProfile(data);
+        await setDoneLoading(true);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
