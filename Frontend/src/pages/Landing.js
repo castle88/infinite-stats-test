@@ -1,6 +1,7 @@
 import {
   Box,
   Card,
+  Stack,
   CardContent,
   Button,
   TextField,
@@ -13,12 +14,40 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Landing() {
-  const [gamertag, setGamertag] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = formData;
+
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData((prev) => {
+      return {
+        ...prev,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      navigate(`/profile/${gamertag}`);
+      const response = await fetch("http://localhost:3333/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem("token", data.token);
+      }
+
+      // navigate(`/profile`);
     } catch (err) {
       console.log(err);
     }
@@ -38,34 +67,47 @@ export default function Landing() {
             align="center"
             variant="h5"
           >
-            Please Enter your Gamertag to Begin OR use 'whoa dud3' to Test
-            Application
+            Welcome to Infinite Stats
+          </Typography>
+          <Typography variant="subtitle">
+            please log in to get started
           </Typography>
           <form onSubmit={handleSubmit}>
-            <Box
+            <Stack
+              direction="column"
+              spacing={2}
               sx={{
                 mt: 5,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
+                p: 2,
               }}
             >
               <TextField
-                onChange={(e) => setGamertag(e.target.value)}
                 variant="outlined"
-                label="Gamertag"
+                label="Email"
+                name="email"
+                type="email"
+                value={email}
+                onChange={handleChange}
               />
-              <Box mt={2}>
-                <Button type="submit" sx={{ mr: 2 }} variant="outlined">
-                  Signup
-                </Button>
+              <TextField
+                variant="outlined"
+                label="Password"
+                name="password"
+                type="password"
+                value={password}
+                onChange={handleChange}
+              />
+              <Stack direction="row">
                 <Button type="submit" variant="contained">
                   Signin
                 </Button>
-              </Box>
-            </Box>
+              </Stack>
+            </Stack>
           </form>
+          <Typography variant="body">
+            Need an account?
+            <Button>Signup</Button>
+          </Typography>
         </CardContent>
       </Card>
     </Box>

@@ -48,7 +48,7 @@ const postLogin = async (req, res, next) => {
     const token = user.getSignedToken();
 
     res.status(200).json({
-      sucess: true,
+      success: true,
       message: `Successfully logged in ${user.gamertag}`,
       token,
     });

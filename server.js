@@ -28,7 +28,7 @@ app.use(cors());
 app.use(helmet());
 
 app.use("/api/auth", authRoutes);
-app.use("/api", protect, homeRoutes);
+app.use("/api/home", protect, homeRoutes);
 app.use("/api/matches", protect, matchRoutes);
 app.use("/api/search", protect, searchRoutes);
 
