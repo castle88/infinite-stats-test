@@ -35,4 +35,27 @@ const postRegister = async (req, res, next) => {
   }
 };
 
-module.exports = { postRegister };
+const postLogin = async (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) return next(new Error("please fill in all fields"));
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return next(new Error("Incorrect email, please try again"));
+
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch) return next(new Error("password incorrect"));
+
+    const token = user.getSignedToken();
+
+    res.status(200).json({
+      sucess: true,
+      message: `Successfully logged in ${user.gamertag}`,
+      token,
+    });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+module.exports = { postRegister, postLogin };
