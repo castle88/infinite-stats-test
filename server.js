@@ -11,6 +11,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/auth");
 require("dotenv").config({ path: "./config/.env" });
 const connectDB = require("./config/database");
+const protect = require("./middleware/protectRoutes");
 
 // look into polypane - multiple browser window
 
@@ -27,9 +28,9 @@ app.use(cors());
 app.use(helmet());
 
 app.use("/api/auth", authRoutes);
-app.use("/api", homeRoutes);
-app.use("/api/matches", matchRoutes);
-app.use("/api/search", searchRoutes);
+app.use("/api", protect, homeRoutes);
+app.use("/api/matches", protect, matchRoutes);
+app.use("/api/search", protect, searchRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

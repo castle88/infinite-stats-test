@@ -4,7 +4,7 @@ const User = require("../model/User");
 module.exports = {
   getProfile: async (req, res, next) => {
     // change gamertag to receive input from clientside form
-    const gamertag = req.params.id.split("_").join(" ");
+    const { gamertag } = req.user;
     try {
       const appearance = await infiniteAPI.getAppearance(gamertag);
       const csrs = await infiniteAPI.getCSRS(gamertag);
