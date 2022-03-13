@@ -11,7 +11,7 @@ import MatchTeams from "../components/MatchTeams/MatchTeams";
 import TeamStats from "../components/TeamStats/TeamStats";
 import CenterBox from "../components/CenterBox/CenterBox";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Loading from "../components/Loading/Loading";
 import { grey, teal } from "@mui/material/colors";
 
@@ -19,18 +19,39 @@ export default function SpecificMatch() {
   const { id } = useParams();
   const [match, setMatch] = useState({});
   const [doneLoading, setDoneLoading] = useState(false);
+  const navigate = useNavigate();
 
   const fetchMatch = async () => {
-    try {
-      const res = await fetch(
-        `https://infinite-stats.herokuapp.com/api/matches/${id}`
-      );
-      const data = await res.json();
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("no token");
+      navigate("/");
+    } else {
+      try {
+        // change back to heroku or better yet make a constant
+        const res = await fetch(`http://localhost:3333/api/matches/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      setMatch(data);
-      setDoneLoading(true);
-    } catch (err) {
-      console.log(err);
+        //   try {
+        //     const res = await fetch(
+        //       `https://infinite-stats.herokuapp.com/api/matches/${id}`
+        //     );
+        const data = await res.json();
+
+        if (data.success) {
+          setMatch(data.match);
+          setDoneLoading(true);
+        } else {
+          setDoneLoading(true);
+          console.log("error fetching match");
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 

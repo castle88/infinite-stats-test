@@ -17,7 +17,7 @@ export default function Search() {
       );
       const data = await res.json();
 
-      await setProfile(data);
+      await setProfile(data.profile);
       await setDoneLoading(true);
     } catch (err) {
       console.log(err);

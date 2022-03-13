@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import SpecificMatch from "./pages/SpecificMatch";
 import Landing from "./pages/Landing";
 import Search from "./pages/SearchProf";
+import Register from "./pages/Register";
 import { ThemeProvider, createTheme } from "@mui/material";
 
 function App() {
@@ -20,7 +21,8 @@ function App() {
         <Navbar />
         <Routes>
           <Route exact path="/" element={<Landing />} />
-          <Route path="/profile/:gamertag" element={<Profile />} />
+          <Route exact path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/search/:gamertag" element={<Search />} />
           <Route path="/match/:id" element={<SpecificMatch />} />
         </Routes>

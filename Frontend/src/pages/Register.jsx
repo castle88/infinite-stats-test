@@ -15,11 +15,13 @@ import { useNavigate } from "react-router-dom";
 
 export default function Landing() {
   const [formData, setFormData] = useState({
+    gamertag: "",
     email: "",
     password: "",
+    password2: "",
   });
 
-  const { email, password } = formData;
+  const { email, password, gamertag, password2 } = formData;
 
   const navigate = useNavigate();
 
@@ -35,19 +37,27 @@ export default function Landing() {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const response = await fetch("http://localhost:3333/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      if (password !== password2) {
+        console.log("passwords dont match");
+      } else {
+        const response = await fetch(
+          "http://localhost:3333/api/auth/register",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ gamertag, email, password }),
+          }
+        );
 
-      const data = await response.json();
+        const data = await response.json();
+        console.log(data);
 
-      if (data.success) {
-        localStorage.setItem("token", data.token);
+        if (data.success) {
+          localStorage.setItem("token", data.token);
+        }
+
+        navigate(`/profile`);
       }
-
-      navigate(`/profile`);
     } catch (err) {
       console.log(err);
     }
@@ -70,7 +80,7 @@ export default function Landing() {
             Welcome to Infinite Stats
           </Typography>
           <Typography sx={{ mt: 2 }} align="center">
-            please log in to get started
+            please fill in all fields to sign up
           </Typography>
           <form onSubmit={handleSubmit}>
             <Stack
@@ -81,6 +91,14 @@ export default function Landing() {
                 p: 2,
               }}
             >
+              <TextField
+                variant="outlined"
+                label="Gamertag"
+                name="gamertag"
+                type="text"
+                value={gamertag}
+                onChange={handleChange}
+              />
               <TextField
                 variant="outlined"
                 label="Email"
@@ -97,16 +115,24 @@ export default function Landing() {
                 value={password}
                 onChange={handleChange}
               />
+              <TextField
+                variant="outlined"
+                label="Confirm Password"
+                name="password2"
+                type="password"
+                value={password2}
+                onChange={handleChange}
+              />
               <Stack direction="row">
                 <Button type="submit" variant="contained">
-                  Signin
+                  Register
                 </Button>
               </Stack>
             </Stack>
           </form>
           <Typography variant="body">
-            Need an account?
-            <Button onClick={() => navigate("/register")}>Signup</Button>
+            Already a member?
+            <Button onClick={() => navigate("/")}>Login</Button>
           </Typography>
         </CardContent>
       </Card>
